@@ -1,4 +1,4 @@
-package com.danal.chatting.chatting;
+package com.danal.chatting.chatting.handler;
 
 
 import lombok.extern.log4j.Log4j2;

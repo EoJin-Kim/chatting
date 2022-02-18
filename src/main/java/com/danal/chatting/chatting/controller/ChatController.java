@@ -1,4 +1,4 @@
-package com.danal.chatting.chatting;
+package com.danal.chatting.chatting.controller;
 
 
 import lombok.extern.slf4j.Slf4j;

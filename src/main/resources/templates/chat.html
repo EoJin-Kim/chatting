@@ -3,6 +3,8 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js"
         integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
         crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.js"></script>
+
     <th:block th:fragment="content">
 
         <div class="container">
@@ -37,7 +39,8 @@
             send();
         });
 
-        const websocket = new WebSocket("ws://localhost:8080/ws/chat");
+        var websocket = new SockJS("/ws/chat", null, {transports: ["websocket", "xhr-streaming", "xhr-polling"]});
+        // const websocket = new WebSocket("ws://localhost:8080/ws/chat");
         websocket.onmessage = onMessage;
         websocket.onopen = onOpen;
         websocket.onclose = onClose;
