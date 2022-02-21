@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-
 @Log4j2
 public class ChatHandler extends TextWebSocketHandler {
 

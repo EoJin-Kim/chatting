@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 @Repository
 public class ChatRoomRepository {
 
+    // 채팅방을 LinkedHashMap으로 관리
     private Map<String, ChatRoomDTO> chatRoomDTOMap;
 
     @PostConstruct

@@ -12,15 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/chat")
 @Slf4j
 public class RoomController {
 
-    private final ChatRoomRepository repository;
+    private final ChatRoomRepository chatRoomRepository;
 
     //채팅방 목록 조회
     @GetMapping(value = "/rooms")
@@ -29,7 +27,7 @@ public class RoomController {
         log.info("# All Chat Rooms");
         ModelAndView mv = new ModelAndView("chat/rooms");
 
-        mv.addObject("list", repository.findAllRooms());
+        mv.addObject("list", chatRoomRepository.findAllRooms());
 
         return mv;
     }
@@ -39,7 +37,7 @@ public class RoomController {
     public String create(@RequestParam String name, RedirectAttributes rttr){
 
         log.info("# Create Chat Room , name: " + name);
-        rttr.addFlashAttribute("roomName", repository.createChatRoomDTO(name));
+        rttr.addFlashAttribute("roomName", chatRoomRepository.createChatRoomDTO(name));
         return "redirect:/chat/rooms";
     }
 
@@ -49,6 +47,6 @@ public class RoomController {
 
         log.info("# get Chat Room, roomID : " + roomId);
 
-        model.addAttribute("room", repository.findRoomById(roomId));
+        model.addAttribute("room", chatRoomRepository.findRoomById(roomId));
     }
 }
