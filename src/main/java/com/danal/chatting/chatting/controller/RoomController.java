@@ -37,13 +37,14 @@ public class RoomController {
     public String create(@RequestParam String name, RedirectAttributes rttr){
 
         log.info("# Create Chat Room , name: " + name);
+        // 모든 속성을 세션에 저장하기 때문에 URL 노출이 없다.
         rttr.addFlashAttribute("roomName", chatRoomRepository.createChatRoomDTO(name));
         return "redirect:/chat/rooms";
     }
 
     //채팅방 조회
     @GetMapping("/room")
-    public void getRoom(String roomId, Model model){
+    public void getRoom(@RequestParam String roomId, Model model){
 
         log.info("# get Chat Room, roomID : " + roomId);
 
