@@ -49,20 +49,27 @@ public class MemeberController {
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 
+    @GetMapping("/login/info")
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER','USER')")
+    public ResponseEntity<?> memberLoginInfo() {
+        String email = SecurityUtil.getCurrentEmail().get();
+        MemberInfoDto memberInfo = memberService.findMemberInfo(email);
+        return new ResponseEntity<>(memberInfo, HttpStatus.OK);
+    }
+
     @GetMapping("/info")
-    @PreAuthorize("hasAnyRole('USER','MANAGER','ADMIN')")
-    public ResponseEntity<?> memberInfo() {
-        String email = SecurityUtil.getCurrentEmail().orElseThrow();
-        MemberInfoDto memberInfoDto = memberService.findMemberInfo(email);
-        return new ResponseEntity<>(memberInfoDto, HttpStatus.OK);
-    }
-
-
-
-    @GetMapping()
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<?> memberList() {
-        List<MemberInfoDto> memberInfoDtoList = memberService.findMemberList();
-        return new ResponseEntity<>(memberInfoDtoList, HttpStatus.OK);
+    public ResponseEntity<?> memberInfoList() {
+        List<MemberInfoDto> memberList = memberService.findMemberList();
+        return new ResponseEntity<>(memberList, HttpStatus.OK);
     }
+    @GetMapping("/info/{email}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> memberInfo(@PathVariable String email) {
+        MemberInfoDto memberInfo = memberService.findMemberInfo(email);
+        return new ResponseEntity<>(memberInfo, HttpStatus.OK);
+    }
+
+
+
 }

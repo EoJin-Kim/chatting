@@ -1,5 +1,7 @@
 package com.danal.chatting.member.service;
 
+import com.danal.chatting.Role.dto.AlterRoleDto;
+import com.danal.chatting.entity.Authority;
 import com.danal.chatting.entity.member.Member;
 import com.danal.chatting.member.dto.MemberInfoDto;
 import com.danal.chatting.member.repository.MemberRepository;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,5 +44,21 @@ public class MemberService {
                 })
                 .collect(Collectors.toList());
         return memberInfoDtoList;
+    }
+
+    @Transactional
+    public MemberInfoDto alterMemberRole(AlterRoleDto alterRoleDto) {
+        try {
+            Member alterMember = memberRepository.findMemberByEmail(alterRoleDto.getEmail()).orElseThrow(() -> new Exception("해당 계정 없음"));
+
+            Authority authority = memberRepository.findAuthorityByRole(alterRoleDto.getRole());
+            alterMember.setAuthority(authority);
+            MemberInfoDto memberInfoDto = new MemberInfoDto(alterMember.getEmail(), alterMember.getName(), alterMember.getAuthority().getRole().toString());
+            return memberInfoDto;
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            return null;
+        }
+
     }
 }

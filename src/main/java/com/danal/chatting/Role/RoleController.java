@@ -1,13 +1,13 @@
 package com.danal.chatting.Role;
 
 
+import com.danal.chatting.Role.dto.AlterRoleDto;
+import com.danal.chatting.member.dto.MemberInfoDto;
+import com.danal.chatting.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/role")
 public class RoleController {
+
+    private final MemberService memberService;
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyRole('USER')")
@@ -31,6 +33,13 @@ public class RoleController {
     @GetMapping("/admin")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<String> adminRoleCheck(HttpServletRequest request) {
+        return ResponseEntity.ok("admin");
+    }
+
+    @PostMapping("/alter")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<String> alterRole(@RequestBody AlterRoleDto alterRoleDto) {
+        MemberInfoDto memberInfoDto = memberService.alterMemberRole(alterRoleDto);
         return ResponseEntity.ok("admin");
     }
 }
