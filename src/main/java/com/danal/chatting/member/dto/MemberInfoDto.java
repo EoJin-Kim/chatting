@@ -1,0 +1,14 @@
+package com.danal.chatting.member.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class MemberInfoDto {
+    String email;
+    String name;
+    String role;
+}
